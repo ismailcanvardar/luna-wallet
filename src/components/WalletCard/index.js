@@ -34,7 +34,7 @@ const WalletCard = () => {
             justifyContent: "space-between",
           }}
         >
-          <Text style={styles.address}>{shortenAddress(wallet.address)}</Text>
+          <Text category="h6" style={styles.address}>{shortenAddress(wallet.address)}</Text>
           <Button
             status="control"
             appearance="ghost"
@@ -43,10 +43,10 @@ const WalletCard = () => {
           />
         </View>
         <View>
-          <Text category="h4" style={styles.heading}>
+          <Text category="h6" style={styles.heading}>
             Balance:
           </Text>
-          <Text category="h3" style={styles.balance}>
+          <Text category="h4" style={styles.balance}>
             22.12 ETH
           </Text>
         </View>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 8,
   },
-  address: { color: "white", fontSize: 18, fontWeight: "bold" },
+  address: { color: "white", fontWeight: "bold" },
   heading: {
     color: "white",
     opacity: 0.6,

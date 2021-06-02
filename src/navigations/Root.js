@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import MainNavigator from "./MainNavigator";
 import LandingNavigator from "./LandingNavigator";
 import useWalletStore from "../stores/useWalletStore";
-import { View, Text } from "react-native";
+import { Text } from "react-native";
 
 const Root = () => {
   const { isWalletFetching, getWallet, isWalletAvailable } = useWalletStore();

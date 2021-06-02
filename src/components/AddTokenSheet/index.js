@@ -1,10 +1,12 @@
 import React, { useRef } from "react";
 import { StyleSheet, View } from "react-native";
-import { Text, Button, Input, Divider } from "@ui-kitten/components";
+import { Text, Button, Input, Divider, Icon } from "@ui-kitten/components";
 import { Portal } from "react-native-portalize";
 import { BlurView } from "expo-blur";
 import BottomSheet from "reanimated-bottom-sheet";
 import { SCREEN_WIDTH } from "../../constants/sizes";
+
+const AddIcon = (props) => <Icon {...props} name="plus-circle" />;
 
 const AddTokenSheet = () => {
   const renderContent = () => (
@@ -26,8 +28,22 @@ const AddTokenSheet = () => {
 
   const renderHeader = () => {
     return (
-      <View style={{width: SCREEN_WIDTH, alignItems: "center", paddingBottom: SCREEN_WIDTH / 50}}>
-        <View style={{width: SCREEN_WIDTH / 4, backgroundColor: "black", opacity: 0.25, height: 6, borderRadius: "100%"}}/>
+      <View
+        style={{
+          width: SCREEN_WIDTH,
+          alignItems: "center",
+          paddingBottom: SCREEN_WIDTH / 50,
+        }}
+      >
+        <View
+          style={{
+            width: SCREEN_WIDTH / 4,
+            backgroundColor: "black",
+            opacity: 0.25,
+            height: 6,
+            borderRadius: "100%",
+          }}
+        />
       </View>
     );
   };
@@ -38,10 +54,12 @@ const AddTokenSheet = () => {
     <>
       <Button
         status="info"
+        size="small"
         appearance="ghost"
         onPress={() => sheetRef.current.snapTo(0)}
+        accessoryLeft={AddIcon}
       >
-        Add new asset
+        ADD
       </Button>
       <Portal>
         <BottomSheet
