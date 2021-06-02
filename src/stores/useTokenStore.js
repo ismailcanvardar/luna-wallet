@@ -1,9 +1,8 @@
 import create from "zustand";
 
-const useTokenStore = create((set) => ({
-  dataHouse: {},
-  fetch: async (url) => {
-    const res = await fetch(url);
-    set({ dataHouse: await res.json() });
-  },
+const useWalletStore = create((set) => ({
+  // Status for saving condition
+  isTokenSaving: false,
 }));
+
+export default useWalletStore;

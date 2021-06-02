@@ -31,13 +31,16 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-41.0.0.tar.gz",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-get-random-values": "^1.7.0",
+    "react-native-portalize": "^1.0.7",
     "react-native-reanimated": "~2.1.0",
     "react-native-safe-area-context": "^3.2.0",
     "react-native-screens": "~3.0.0",
     "react-native-svg": "^12.1.1",
     "react-native-web": "~0.13.12",
+    "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "uuid": "^8.3.2",
-    "zustand": "^3.5.1"
+    "zustand": "^3.5.1",
+    "expo-blur": "~9.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0"

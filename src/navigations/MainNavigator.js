@@ -11,6 +11,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { Host } from "react-native-portalize";
 import { SCREEN_WIDTH } from "../constants/sizes";
 
 import History from "../screens/History";
@@ -63,15 +64,17 @@ const BottomTabBar = ({ navigation, state }) => {
 export default function MainNavigator() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          options={{ headerShown: false }}
-          name="Tabs"
-          component={TabNavigator}
-        />
-        <Stack.Screen name="History" component={History} />
-        <Stack.Screen name="Settings" component={Settings} />
-      </Stack.Navigator>
+      <Host>
+        <Stack.Navigator>
+          <Stack.Screen
+            options={{ headerShown: false }}
+            name="Tabs"
+            component={TabNavigator}
+          />
+          <Stack.Screen name="History" component={History} />
+          <Stack.Screen name="Settings" component={Settings} />
+        </Stack.Navigator>
+      </Host>
     </NavigationContainer>
   );
 }
