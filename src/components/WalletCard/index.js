@@ -5,6 +5,7 @@ import { Card, Text, Button, Icon } from "@ui-kitten/components";
 import { LinearGradient } from "expo-linear-gradient";
 import { shortenAddress } from "../../utils/addressShortener";
 import Clipboard from "expo-clipboard";
+import useBalanceStore from "../../stores/useBalanceStore";
 
 const CopyIcon = (props) => {
   return <Icon {...props} name="clipboard" />;
@@ -12,6 +13,8 @@ const CopyIcon = (props) => {
 
 const WalletCard = () => {
   const { wallet } = useWalletStore();
+
+  const { ethBalance } = useBalanceStore();
 
   // Copies wallet address to clip.oard
   const copyAddress = () => {
@@ -47,7 +50,7 @@ const WalletCard = () => {
             Balance:
           </Text>
           <Text category="h4" style={styles.balance}>
-            22.12 ETH
+            {parseFloat(ethBalance).toFixed(3)} ETH
           </Text>
         </View>
       </View>

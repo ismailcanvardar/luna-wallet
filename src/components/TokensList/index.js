@@ -29,7 +29,9 @@ const Home = () => {
     return (
       <ListItem
         title={`${item.token_symbol}`}
-        description={`${tokenBalances && tokenBalances[index]}`}
+        description={`${
+          tokenBalances && parseFloat(tokenBalances[index]).toFixed(3)
+        }`}
         accessoryLeft={() => <Avatar source={{ uri: item.logoURI }} />}
         accessoryRight={renderItemAccessory}
         disabled

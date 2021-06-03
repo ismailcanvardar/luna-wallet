@@ -23,18 +23,24 @@ function useGetTokenBalances() {
   const { provider } = useProviderStore();
   const { wallet } = useWalletStore();
   // const signer = wallet.walletInstance.connect(provider);
-  const { setTokenBalances } = useBalanceStore(); 
+  const { setTokenBalances, setEthBalance } = useBalanceStore();
 
   const getTokenBalance = async (address) => {
     // const erc20 = new ethers.Contract(address, abi, provider);
-
     // const balance = await erc20.balanceOf(wallet.address);
     // console.log(ethers.utils.formatEther(balance));
     // return balance;
   };
 
+  const getEthBalance = async () => {
+    let balance = await provider.getBalance(wallet.address);
+    setEthBalance(ethers.utils.formatEther(balance));
+  };
+
   const getMultipleTokenBalances = async () => {
-    const addresses = defaultTokens.map(function(a) {return a.contract_address});
+    const addresses = defaultTokens.map(function (a) {
+      return a.contract_address;
+    });
     const promises = addresses.map(async (token) => {
       const erc20 = new ethers.Contract(token, abi, provider);
       const balance = await erc20.balanceOf(wallet.address);
@@ -46,7 +52,7 @@ function useGetTokenBalances() {
     setTokenBalances(balances);
   };
 
-  return [getTokenBalance, getMultipleTokenBalances];
+  return [getTokenBalance, getMultipleTokenBalances, getEthBalance];
 }
 
 export default useGetTokenBalances;
