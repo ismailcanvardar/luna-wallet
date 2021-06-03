@@ -1,10 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
+import useWalletStore from "../../stores/useWalletStore";
 
 const Settings = () => {
+  const { deleteWallet } = useWalletStore();
+
   return (
     <View>
-      <Text></Text>
+      <Button title="Delete" onPress={deleteWallet}></Button>
     </View>
   );
 };

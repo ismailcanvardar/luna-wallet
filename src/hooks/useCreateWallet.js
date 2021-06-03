@@ -11,12 +11,13 @@ const useCreateWallet = () => {
   const createWallet = () => {
     setLoading(true);
     setError(false);
-    const { address, mnemonic, privateKey } = ethers.Wallet.createRandom();
+    const createdWallet = ethers.Wallet.createRandom();
 
     let walletObject = {
-      address,
-      mnemonic: mnemonic.phrase,
-      privateKey,
+      address: createdWallet.address,
+      mnemonic: createdWallet.mnemonic.phrase,
+      privateKey: createdWallet.privateKey,
+      walletInstance: createdWallet,
     };
 
     const creatingTimeout = setTimeout(() => {

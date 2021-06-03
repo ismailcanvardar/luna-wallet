@@ -12,14 +12,15 @@ const useImportWallet = () => {
     try {
       setLoading(true);
       setError(false);
-      const { address, mnemonic, privateKey } = ethers.Wallet.fromMnemonic(
+      const importedWallet = ethers.Wallet.fromMnemonic(
         givenMnemonic.toString()
       );
 
       let walletObject = {
-        address,
-        mnemonic: mnemonic.phrase,
-        privateKey,
+        address: importedWallet.address,
+        mnemonic: importedWallet.mnemonic.phrase,
+        privateKey: importedWallet.privateKey,
+        walletInstance: importedWallet,
       };
 
       const creatingTimeout = setTimeout(() => {
