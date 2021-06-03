@@ -37,7 +37,7 @@ const WalletCard = () => {
             justifyContent: "space-between",
           }}
         >
-          <Text category="h6" style={styles.address}>{shortenAddress(wallet.address)}</Text>
+          <Text category="h6" style={styles.address}>{wallet && shortenAddress(wallet.address)}</Text>
           <Button
             status="control"
             appearance="ghost"

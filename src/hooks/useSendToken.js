@@ -7,7 +7,7 @@ import { erc20_abi as send_abi } from "../utils/erc20_abi";
 const useSendToken = () => {
   const { provider } = useProviderStore();
 
-  function sendToken(wallet, contract_address, send_token_amount, to_address) {
+  function sendToken(wallet, contract_address, send_token_amount, to_address, decimals) {
     const send_account = wallet.address;
     let createdWallet = new ethers.Wallet(wallet.privateKey);
     let walletSigner = createdWallet.connect(provider);
@@ -25,7 +25,7 @@ const useSendToken = () => {
         );
 
         // How many tokens?
-        let numberOfTokens = ethers.utils.parseUnits(send_token_amount, 18);
+        let numberOfTokens = ethers.utils.parseUnits(send_token_amount, decimals);
         console.log(`numberOfTokens: ${numberOfTokens}`);
 
         // Send tokens

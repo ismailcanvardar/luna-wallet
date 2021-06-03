@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { Button, Modal, Card } from "@ui-kitten/components";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { SCREEN_WIDTH } from "../../constants/sizes";
 
 // Set value transfers data to upper component by using props
-const BarcodeScanner = ({ value, setValue, style }) => {
+const BarcodeScanner = ({ value, setValue, style, customButton = null }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [cameraOpen, setCameraOpen] = useState(false);
 
@@ -22,16 +22,24 @@ const BarcodeScanner = ({ value, setValue, style }) => {
     }
   };
 
-  if (value.length > 0) {
-    return <></>;
-  }
+  // if (value.length > 0) {
+  //   return <></>;
+  // }
 
   if (!cameraOpen) {
-    return (
-      <Button status="info" style={style} onPress={handleBarCodeScanned}>
-        Tap to Scan
-      </Button>
-    );
+    if (customButton !== null) {
+      return (
+        <TouchableWithoutFeedback onPress={handleBarCodeScanned}>
+          {customButton}
+        </TouchableWithoutFeedback>
+      );
+    } else {
+      return (
+        <Button status="info" style={style} onPress={handleBarCodeScanned}>
+          Tap to Scan
+        </Button>
+      );
+    }
   }
 
   return (

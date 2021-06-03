@@ -17,6 +17,7 @@
     "@react-navigation/stack": "^5.14.5",
     "@ui-kitten/components": "^5.1.0",
     "@ui-kitten/eva-icons": "^5.1.0",
+    "axios": "^0.21.1",
     "ethers": "^5.2.0",
     "expo": "~41.0.1",
     "expo-barcode-scanner": "~10.1.2",

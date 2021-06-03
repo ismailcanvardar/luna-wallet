@@ -4,12 +4,16 @@ import { Text, Button, Layout, Divider } from "@ui-kitten/components";
 import Container from "../../components/Container";
 import { SCREEN_WIDTH } from "../../constants/sizes";
 import { useNavigation } from "@react-navigation/native";
+import AstronautSvg from "../../components/AstronautSvg";
 
 const Welcome = () => {
   const { navigate } = useNavigation();
 
   return (
     <Container style={styles.container}>
+      <Layout style={styles.astronaut}>
+        <AstronautSvg />
+      </Layout>
       <Text style={styles.heading} category="h1">
         Welcome
       </Text>
@@ -42,7 +46,7 @@ export default Welcome;
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
+    paddingTop: SCREEN_WIDTH / 4
   },
   heading: {
     paddingBottom: SCREEN_WIDTH / 20,
@@ -53,4 +57,5 @@ const styles = StyleSheet.create({
   button: {
     marginBottom: SCREEN_WIDTH / 30,
   },
+  astronaut: { justifyContent: "center", alignItems: "center" },
 });

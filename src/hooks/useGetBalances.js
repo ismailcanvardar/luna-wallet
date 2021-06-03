@@ -25,13 +25,10 @@ function useGetTokenBalances() {
   };
 
   const getMultipleTokenBalances = async () => {
-    const addresses = defaultTokens.map(function (a) {
-      return a.contract_address;
-    });
-    const promises = addresses.map(async (token) => {
-      const erc20 = new ethers.Contract(token, erc20_abi, provider);
+    const promises = defaultTokens.map(async (token) => {
+      const erc20 = new ethers.Contract(token.contract_address, erc20_abi, provider);
       const balance = await erc20.balanceOf(wallet.address);
-      return ethers.utils.formatEther(balance);
+      return ethers.utils.formatUnits(balance, token.decimals);
     });
 
     const balances = await Promise.all(promises);

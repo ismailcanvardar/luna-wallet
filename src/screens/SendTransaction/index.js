@@ -16,6 +16,9 @@ import TokensModal from "../../components/TokensModal";
 import { SCREEN_WIDTH } from "../../constants/sizes";
 import defaultTokens from "../../constants/defaultTokens.json";
 import useSendToken from "../../hooks/useSendToken";
+import Clipboard from "expo-clipboard";
+import BarcodeScanner from "../../components/BarcodeScanner";
+import ContactsModal from "../../components/ContactsModal";
 
 const SendTransaction = () => {
   const { ethBalance, tokenBalances } = useBalanceStore();
@@ -26,17 +29,25 @@ const SendTransaction = () => {
   const [selectedToken, setSelectedToken] = useState(null);
   const [recipientAddress, setRecipientAddress] = useState("");
 
+  const pasteAddress = async () => {
+    const flag = await Clipboard.getStringAsync();
+    console.log(flag);
+    setRecipientAddress(flag);
+  };
+
   const renderRightAccessories = (props) => {
     return (
       <>
-        <TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={pasteAddress}>
           <Icon name="clipboard" {...props} />
         </TouchableWithoutFeedback>
+        <BarcodeScanner
+          value={recipientAddress}
+          setValue={setRecipientAddress}
+          customButton={<Icon name="camera" {...props} />}
+        />
         <TouchableWithoutFeedback>
-          <Icon name="camera" {...props} />
-        </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback>
-          <Icon name="person-add" {...props} />
+          <ContactsModal customButton={<Icon name="person-add" {...props} />} />
         </TouchableWithoutFeedback>
       </>
     );
@@ -95,8 +106,10 @@ const SendTransaction = () => {
       <Input
         style={styles.lowerElements}
         placeholder="Type recipient address..."
+        value={recipientAddress}
         accessoryRight={renderRightAccessories}
         onChangeText={(text) => setRecipientAddress(text)}
+        status="info"
       />
       <Input
         style={styles.lowerElements}
@@ -109,7 +122,11 @@ const SendTransaction = () => {
       <Button
         style={styles.lowerElements}
         status="success"
-        disabled={amount === 0 || selectedToken === null || recipientAddress.length === 0}
+        disabled={
+          amount === 0 ||
+          selectedToken === null ||
+          recipientAddress.length === 0
+        }
         onPress={() =>
           sendToken(
             wallet,

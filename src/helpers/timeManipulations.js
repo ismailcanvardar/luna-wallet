@@ -5,7 +5,7 @@ export const getNow = () => {
 };
 
 export const timeDifference = (date) => {
-  const initialDate = moment(date);
+  const initialDate = moment.unix(date);
   const now = moment();
 
   // get the difference between the moments
