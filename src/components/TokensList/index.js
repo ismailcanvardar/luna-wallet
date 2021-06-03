@@ -1,18 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import useTokenStore from "../../stores/useTokenStore";
 import { List, ListItem, Icon, Avatar } from "@ui-kitten/components";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants/sizes";
 import defaultTokens from "../../constants/defaultTokens.json";
 import useBalanceStore from "../../stores/useBalanceStore";
+import useGetBalances from "../../hooks/useGetBalances";
 
 const Home = () => {
   const { getTokenList, isFetching, fetchingError } = useTokenStore();
   const { tokenBalances } = useBalanceStore();
+  const [refreshing, setRefreshing] = useState(false);
+  const [getTokenBalance, getMultipleTokenBalances, getEthBalance] = useGetBalances();
 
   useEffect(() => {
     // getTokenList();
   }, []);
+
+  const refreshData = async () => {
+    setRefreshing(true);
+    await getMultipleTokenBalances();
+    await getEthBalance();
+    setRefreshing(false);
+  }
 
   const renderItemAccessory = (props) => (
     <>
@@ -45,6 +55,8 @@ const Home = () => {
       data={defaultTokens}
       showsVerticalScrollIndicator={false}
       renderItem={renderItem}
+      refreshing={refreshing}
+      onRefresh={refreshData}
     />
   );
 };

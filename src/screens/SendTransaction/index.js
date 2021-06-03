@@ -47,14 +47,14 @@ const SendTransaction = () => {
           customButton={<Icon name="camera" {...props} />}
         />
         <TouchableWithoutFeedback>
-          <ContactsModal customButton={<Icon name="person-add" {...props} />} />
+          <ContactsModal setRecipientAddress={setRecipientAddress} customButton={<Icon name="person-add" {...props} />} />
         </TouchableWithoutFeedback>
       </>
     );
   };
 
   const renderETHText = () => {
-    return selectedToken ? (
+    return selectedToken !== null ? (
       selectedToken === -1 ? (
         <Text>ETH</Text>
       ) : (
@@ -113,7 +113,7 @@ const SendTransaction = () => {
       />
       <Input
         style={styles.lowerElements}
-        value={amount}
+        value={amount.toString()}
         placeholder="Enter amount..."
         accessoryRight={renderETHText}
         onChangeText={(text) => setAmount(parseFloat(text))}
@@ -130,9 +130,10 @@ const SendTransaction = () => {
         onPress={() =>
           sendToken(
             wallet,
-            "0xad5ce863ae3e4e9394ab43d4ba0d80f419f61789",
-            "0.1",
-            "0x888Db2Df996cB9CeBc8556dDBD87CF835614a78d"
+            selectedToken !== -1 ? defaultTokens[selectedToken].contract_address : null,
+            amount.toString(),
+            recipientAddress,
+            selectedToken !== -1 ? defaultTokens[selectedToken].decimals : 18,
           )
         }
       >

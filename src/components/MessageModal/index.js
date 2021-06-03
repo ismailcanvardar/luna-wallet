@@ -3,21 +3,41 @@ import { StyleSheet, View } from "react-native";
 import { Button, Card, Modal, Text, Divider } from "@ui-kitten/components";
 import { SCREEN_WIDTH } from "../../constants/sizes";
 
-const MessageModal = ({ heading, message, visible, setVisible, onPress }) => {
+const MessageModal = ({
+  heading,
+  message,
+  buttonTitle = "Continue",
+  visible,
+  setVisible,
+  onPress,
+  body,
+  isBackdropPressable
+}) => {
   if (visible) {
     return (
       <View style={styles.container}>
-        <Modal visible={visible} backdropStyle={styles.backdrop}>
+        <Modal visible={visible} onBackdropPress={isBackdropPressable ? () => setVisible(false) : null} backdropStyle={styles.backdrop}>
           <Card style={styles.card} disabled={true}>
             <Text style={styles.heading} category="h4">
               {heading}
             </Text>
-            <Text category="c2">
+            {body && (
+              <View
+                style={{
+                  marginBottom: SCREEN_WIDTH / 20,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {body}
+              </View>
+            )}
+            <Text style={{ textAlign: body ? "center" : "auto" }} category="c2">
               {message}
             </Text>
             <Divider style={styles.divider} />
             <Button status="success" onPress={onPress}>
-              Continue
+              {buttonTitle}
             </Button>
           </Card>
         </Modal>
