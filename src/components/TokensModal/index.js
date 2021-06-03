@@ -38,6 +38,7 @@ const TokensModal = ({ selectedToken, setSelectedToken }) => {
       <Button
         appearance="outline"
         status="info"
+        size="small"
         onPress={() => setVisible(true)}
       >
         Select a Token
@@ -81,7 +82,6 @@ export default TokensModal;
 
 const styles = StyleSheet.create({
   container: {
-    minHeight: SCREEN_HEIGHT / 4,
     maxHeight: SCREEN_HEIGHT / 3,
   },
   backdrop: {

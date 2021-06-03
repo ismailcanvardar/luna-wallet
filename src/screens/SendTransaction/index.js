@@ -1,16 +1,12 @@
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 import {
-  Button,
-  Card,
-  Modal,
   Text,
-  List,
-  ListItem,
   Avatar,
-  Divider,
-  Icon,
   Layout,
+  Input,
+  Icon,
+  Button,
 } from "@ui-kitten/components";
 import useWalletStore from "../../stores/useWalletStore";
 import useBalanceStore from "../../stores/useBalanceStore";
@@ -19,35 +15,53 @@ import TabsTopNavigation from "../../components/TabsTopNavigation";
 import TokensModal from "../../components/TokensModal";
 import { SCREEN_WIDTH } from "../../constants/sizes";
 import defaultTokens from "../../constants/defaultTokens.json";
-import { useEffect } from "react/cjs/react.development";
+import useSendToken from "../../hooks/useSendToken";
 
 const SendTransaction = () => {
-  const [selectedToken, setSelectedToken] = useState(null);
   const { ethBalance, tokenBalances } = useBalanceStore();
+  const [sendToken] = useSendToken();
+  const { wallet } = useWalletStore();
 
-  useEffect(() => {
-    if (selectedToken) {
-      console.log(defaultTokens[selectedToken]);
-    }
-  }, [selectedToken]);
+  const [amount, setAmount] = useState(0);
+  const [selectedToken, setSelectedToken] = useState(null);
+  const [recipientAddress, setRecipientAddress] = useState("");
+
+  const renderRightAccessories = (props) => {
+    return (
+      <>
+        <TouchableWithoutFeedback>
+          <Icon name="clipboard" {...props} />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback>
+          <Icon name="camera" {...props} />
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback>
+          <Icon name="person-add" {...props} />
+        </TouchableWithoutFeedback>
+      </>
+    );
+  };
+
+  const renderETHText = () => {
+    return selectedToken ? (
+      selectedToken === -1 ? (
+        <Text>ETH</Text>
+      ) : (
+        <Text>{defaultTokens[selectedToken].token_symbol.toString()}</Text>
+      )
+    ) : null;
+  };
 
   return (
     <Container>
       <TabsTopNavigation title="Send" />
       {selectedToken === null ? (
-        <Text appearance="hint" style={{ paddingVertical: SCREEN_WIDTH / 20 }}>
-          No token selected.
+        <Text appearance="hint" style={styles.nonSelected}>
+          No asset selected.
         </Text>
       ) : (
-        <Layout
-          style={{
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexDirection: "row",
-            paddingVertical: SCREEN_WIDTH / 20,
-          }}
-        >
-          <View style={{ flex: 1, alignItems: "flex-start" }}>
+        <Layout style={styles.selectedContainer}>
+          <View style={styles.selectedLogoContainer}>
             <Avatar
               size="tiny"
               source={{
@@ -58,14 +72,14 @@ const SendTransaction = () => {
               }}
             />
           </View>
-          <View style={{ flex: 1, alignItems: "center" }}>
+          <View style={styles.selectedSymbolContainer}>
             <Text category="h6">
               {selectedToken === -1
                 ? "ETH"
                 : defaultTokens[selectedToken].token_symbol}
             </Text>
           </View>
-          <View style={{ flex: 1, alignItems: "flex-end" }}>
+          <View style={styles.selectedBalanceContainer}>
             <Text category="h6" appearance="hint">
               {selectedToken === -1
                 ? parseFloat(ethBalance).toFixed(3)
@@ -78,10 +92,52 @@ const SendTransaction = () => {
         selectedToken={selectedToken}
         setSelectedToken={setSelectedToken}
       />
+      <Input
+        style={styles.lowerElements}
+        placeholder="Type recipient address..."
+        accessoryRight={renderRightAccessories}
+        onChangeText={(text) => setRecipientAddress(text)}
+      />
+      <Input
+        style={styles.lowerElements}
+        value={amount}
+        placeholder="Enter amount..."
+        accessoryRight={renderETHText}
+        onChangeText={(text) => setAmount(parseFloat(text))}
+        keyboardType="numeric"
+      />
+      <Button
+        style={styles.lowerElements}
+        status="success"
+        disabled={amount === 0 || selectedToken === null || recipientAddress.length === 0}
+        onPress={() =>
+          sendToken(
+            wallet,
+            "0xad5ce863ae3e4e9394ab43d4ba0d80f419f61789",
+            "0.1",
+            "0x888Db2Df996cB9CeBc8556dDBD87CF835614a78d"
+          )
+        }
+      >
+        Send
+      </Button>
     </Container>
   );
 };
 
 export default SendTransaction;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  nonSelected: { paddingBottom: SCREEN_WIDTH / 20, paddingTop: 5 },
+  selectedContainer: {
+    justifyContent: "space-between",
+    alignItems: "center",
+    flexDirection: "row",
+    paddingBottom: SCREEN_WIDTH / 20,
+    paddingTop: 5,
+  },
+  selectedLogoContainer: { flex: 1, alignItems: "flex-start" },
+  selectedNameContainer: { flex: 1, alignItems: "center" },
+  selectedBalanceContainer: { flex: 1, alignItems: "flex-end" },
+  lowerElements: { marginTop: SCREEN_WIDTH / 20 },
+});
