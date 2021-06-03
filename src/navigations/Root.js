@@ -5,12 +5,18 @@ import useWalletStore from "../stores/useWalletStore";
 import useProviderStore from "../stores/useProviderStore";
 import useGetBalances from "../hooks/useGetBalances";
 import { Text } from "react-native";
+import useThemeStore from "../stores/useThemeStore";
 
 const Root = () => {
   const { wallet, isWalletFetching, getWallet, isWalletAvailable } =
     useWalletStore();
   const { provider, setProvider } = useProviderStore();
   const [getTokenBalance, getMultipleTokenBalances, getEthBalance] = useGetBalances();
+  const { setDefaultThemeMode, switchTheme  } = useThemeStore();
+  
+  useEffect(() => {
+    setDefaultThemeMode();
+  }, []);
 
   useEffect(() => {
     getWallet();

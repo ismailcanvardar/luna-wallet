@@ -72,7 +72,7 @@ export default function MainNavigator() {
             component={TabNavigator}
           />
           <Stack.Screen name="History" component={History} />
-          <Stack.Screen name="Settings" component={Settings} />
+          <Stack.Screen options={{ headerShown: false }} name="Settings" component={Settings} />
         </Stack.Navigator>
       </Host>
     </NavigationContainer>
